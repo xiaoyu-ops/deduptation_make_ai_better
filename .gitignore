@@ -12,3 +12,5 @@ clustering/clustering_and_sort.py
 clustering/kmeans_configs.yaml
 dev_semdedup_configs.yaml
 data
+paths
+embeddings

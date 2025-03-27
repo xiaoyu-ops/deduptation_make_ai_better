@@ -17,7 +17,7 @@ import pprint
 import submitit
 import pathlib
 from typing import Union, Optional
-from utils import get_logger
+from clustering.utils import get_logger
 
 
 def faiss_index_to_gpu(cpu_index):
@@ -137,7 +137,11 @@ def compute_centroids(
 
         # -- Move kmeans index to cpu to save it
         # -- 将 kmeans 索引移动到 CPU 上以保存
-        kmeans_index = faiss.index_gpu_to_cpu(kmeans.index)
+        if hasattr(faiss, 'index_gpu_to_cpu'):
+            kmeans_index = faiss.index_gpu_to_cpu(kmeans.index)
+        else:
+            # 如果是纯CPU版本，直接使用索引
+            kmeans_index = kmeans.index
         logger.info(f"faiss kmeans index to store: {type(kmeans_index)}")
         ## -- Save faiss kmeans index object as pickle file
         ## -- 将 faiss Kmeans 索引对象保存为 pickle 文件

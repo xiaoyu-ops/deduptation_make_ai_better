@@ -37,8 +37,8 @@ def get_embeddings(model, dataloader, emd_memmap, paths_memmap):
 
     # -- model
     # -- 模型
-    model = model.to(device)
-    model = model.eval()
+    model = model.to("cuda" if torch.cuda.is_available() else "cpu")
+    model.eval()  # 设置为评估模式
     '''
     model.eval()切换为评估模式而非训练模式。在训练模式下，模型会自动开启 Dropout 和 BatchNorm 层，
     以便在训练时引入随机性，从而提高模型的泛化能力。
@@ -53,7 +53,9 @@ def get_embeddings(model, dataloader, emd_memmap, paths_memmap):
     print("Get encoding...")
     with torch.no_grad():
         for data_batch, paths_batch, batch_indices in tqdm(dataloader):
+            print(f"data_batch对应的类型是{type(data_batch)}")
+            print(f"data_batch的形状是{data_batch.shape}")
             data_batch = data_batch.to(device)
-            encodings = model(data_batch)
+            encodings = model.encode_image(data_batch)  # 修改为 encode_image
             emd_memmap[batch_indices] = normalize(encodings, dim=1)
             paths_memmap[batch_indices] = paths_batch
