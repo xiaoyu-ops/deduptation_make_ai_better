@@ -1,12 +1,12 @@
 
-save_folder: "<your path>"
-sorted_clusters_path: "<your path>/sorted_clusters"
+save_folder: "clustering\\results\\semdedup_result"
+sorted_clusters_path: "clustering\\results\\sorted_clusters"
 # -- number of clusters
 # --簇的数量
-num_clusters: 50000
-embs_memory_loc: "<your path>.npy"
+num_clusters: 599
+embs_memory_loc: "embeddings\\image_embeddings.npy"
 # -- dataset size
-dataset_size: <dataset_size>
+dataset_size: 23410
 # -- embeddings size
 emd_size: 512
 # -- which example to keep from each group of duplicates

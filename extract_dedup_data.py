@@ -29,9 +29,20 @@ def extract_pruned_data(
 
     for cluster_id in tqdm(range(0, num_clusters)):
 
-        cluster_i = np.load(
-            os.path.join(sorted_clusters_path, f"cluster_{cluster_id}.npy")
-        )
+        cluster_file = os.path.join(sorted_clusters_path, f"sorted_cluster_{cluster_id}.txt")
+        if os.path.exists(cluster_file):
+            # 从.txt文件加载
+            cluster_i = np.loadtxt(cluster_file, dtype=int)
+            cluster_i = cluster_i.reshape(-1, 1) if cluster_i.ndim == 1 else cluster_i
+        else:
+            # 尝试从.npy文件加载
+            npy_file = os.path.join(sorted_clusters_path, f"cluster_{cluster_id}.npy")
+            if os.path.exists(npy_file):
+                cluster_i = np.load(npy_file)
+            else:
+                print(f"警告: 找不到簇文件 {cluster_file} 或 {npy_file}")
+                continue
+
         with open(
             f"{semdedup_pruning_tables_path}/cluster_{cluster_id}.pkl", "rb"
         ) as file:
