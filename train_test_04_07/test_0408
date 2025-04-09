@@ -1,0 +1,21 @@
+from datasets import load_from_disk, Dataset
+from PIL import Image
+import torch
+import os
+
+
+ds = load_from_disk("data/cats_vs_dogs")
+ds_dir = "deduped_images"
+print(ds["train"][0])
+# 在您的代码开头添加这些行
+print(f"PyTorch版本: {torch.__version__}")
+print(f"CUDA可用: {torch.cuda.is_available()}")
+if torch.cuda.is_available():
+    print(f"CUDA版本: {torch.version.cuda}")
+    print(f"GPU数量: {torch.cuda.device_count()}")
+    print(f"GPU型号: {torch.cuda.get_device_name(0)}")
+    print(f"当前使用的GPU: {torch.cuda.current_device()}")
+
+print(len(ds["train"]))
+files = os.listdir(ds_dir)
+print(len(files))
