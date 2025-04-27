@@ -1,4 +1,4 @@
-from compute_pretrained_embeddings import get_embeddings
+from the_last_code_04_20.compute_pretrained_embeddings import get_embeddings
 import open_clip
 import numpy as np
 from datasets import load_from_disk
